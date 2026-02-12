@@ -1,0 +1,2763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern School | 53rd Anniversary</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Great+Vibes&family=Inter:wght@300;400;700&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --maroon: #800000;
+            --white: #ffffff;
+            --cream: #f8f6f2;
+            --pastel-blue: #a8d0e6;
+            --light-blue: #d4e9ff;
+            --dark-blue: #374785;
+            --gold-grad: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --bg-cream: #fdfdfb;
+            --step-blue: #a8d0e6;
+            --step-light: #d4e9ff;
+            --step-w: 260px;
+            --step-h: 70px;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --slate-950: #020617;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-400: #94a3b8;
+            --success: #10b981;
+            --gold: #d4af37; 
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--maroon);
+            overflow-x: hidden;
+        }
+
+        /* --- LEFT-SIDE HAMBURGER MENU STYLES --- */
+       .menu-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 45px; 
+            height: 45px; 
+            background: rgba(255, 255, 255, 0.384);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            cursor: pointer; 
+            transition: 0.3s; 
+            z-index: 10000;
+            overflow: hidden;
+             backdrop-filter: blur(5px);
+        }
+        
+        .line {
+            width: 22px; 
+            height: 3.5px; 
+            background: var(--maroon);
+            position: absolute; 
+            transition: all 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        }
+        .line-1 { transform: translateY(-5px); }
+        .line-2 { transform: translateY(5px); }
+
+        /* MORPHING TO X */
+        .is-active .menu-toggle { 
+            background: var(--maroon); 
+            border-color: var(--maroon); 
+        }
+        .is-active .line { 
+            background: var(--white); 
+            width: 24px; 
+        }
+        .is-active .line-1 { transform: rotate(45deg); }
+        .is-active .line-2 { transform: rotate(-45deg); }
+
+        /* Add nav-header styling for left positioning */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        /* --- MENU OVERLAY --- */
+        .menu-overlay {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100vh;
+            background: var(--slate-950); 
+            z-index: 9000;
+            display: none; 
+            opacity: 0;
+        }
+
+        .split-layout {
+            display: grid; 
+            grid-template-columns: 1fr 1fr;
+            width: 100%; 
+            height: 100%; 
+            padding: 120px 10%;
+        }
+
+        /* LEFT PANE: HIGH VISIBILITY TOPICS */
+        .left-pane {
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-item {
+            font-size: 3.5rem; 
+            font-weight: 800; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--slate-400);
+            margin-bottom: 25px; 
+            cursor: pointer; 
+            transition: 0.3s;
+            display: flex; 
+            align-items: center; 
+            gap: 20px;
+            opacity: 1 !important;
+        }
+        
+        .nav-item::before {
+            content: ''; 
+            width: 0; 
+            height: 6px; 
+            background: var(--primary);
+            transition: 0.4s ease; 
+            border-radius: 10px;
+        }
+
+        /* Active State */
+        .nav-item.active { color: var(--white); }
+        .nav-item.active::before { width: 35px; }
+        .nav-item:hover { color: var(--white); }
+
+        /* RIGHT PANE: CONTENT */
+        .right-pane { 
+            padding-left: 80px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+        }
+        
+        .sub-box { 
+            opacity: 0; 
+            transform: translateY(20px); 
+        }
+        
+        .sub-tag { 
+            color: var(--primary); 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            margin-bottom: 30px; 
+            display: block; 
+        }
+        
+        .sub-link {
+            color: var(--white); 
+            font-size: 1.8rem; 
+            font-weight: 600;
+            text-decoration: none; 
+            display: block; 
+            margin-bottom: 15px;
+            opacity: 0; 
+            transform: translateX(-15px); 
+            transition: 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .sub-link:hover { 
+            color: var(--primary); 
+            padding-left: 10px; 
+        }
+
+        @media (max-width: 900px) {
+            .split-layout { 
+                grid-template-columns: 1fr; 
+            }
+            .left-pane { 
+                border: none; 
+                border-bottom: 1px solid rgba(255,255,255,0.1); 
+                padding-bottom: 30px; 
+            }
+            .nav-item { 
+                font-size: 2rem; 
+            }
+            .right-pane { 
+                padding-left: 0; 
+                padding-top: 40px; 
+            }
+            .nav-header {
+                padding: 20px 25px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-item { 
+                font-size: 1.8rem; 
+            }
+            .sub-link {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* --- Back to Top Button --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            background: var(--maroon);
+            color: white;
+            border-radius: 50%;
+            border:4px solid var(--pastel-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+           }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: #600000;
+            transform: translateY(-5px);
+            }
+
+        .back-to-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --- 1. Reveal Section --- */
+        .pin-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: var(--cream);
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            margin-bottom: 15px;
+            z-index: 20;
+            color: var(--dark-blue);
+        }
+
+        .headline-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 10rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            z-index: 15;
+            color: var(--maroon);
+        }
+
+        .image-reveal {
+            width: 0px; height: 0px;
+            margin: 0 45px; 
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-reveal img {
+            position: absolute;
+            width: 100vw; height: 100vh;
+            object-fit: cover;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(3); 
+        }
+
+        /* --- 2. Anniversary Section --- */
+        .anniversary-footer {
+            min-height: 100vh;
+            background: var(--cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 20px;
+        }
+
+        .anniversary-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--maroon);
+            margin-bottom: 10px;
+        }
+
+        .number-53 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(6rem, 20vw, 14rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--maroon), var(--dark-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            display: inline-block;
+        }
+
+        .number-53 span {
+            font-size: 0.25em;
+            vertical-align: super;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            margin-left: 5px;
+            background: linear-gradient(135deg, var(--maroon), var(--dark-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glorious-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1rem, 3vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-top: 15px;
+            color: var(--dark-blue);
+            z-index: 10;
+        }
+
+        /* --- 3. 3-Column Split Section --- */
+        .split-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--cream);
+            overflow: hidden;
+        }
+
+        .description-side {
+            width: 33.33%; 
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            z-index: 1;
+        }
+
+        .description-side h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            margin-bottom: 20px;
+            color: var(--maroon);
+        }
+
+        .description-side p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .img-panel {
+            position: absolute;
+            top: 0;
+            width: 50%; 
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            z-index: 5;
+        }
+
+        .panel-left { left: 0; }
+        .panel-right { right: 0; }
+
+        .img-frame {
+            position: relative;
+            width: 100%;
+            height: 100%; 
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .img-panel img {
+            width: 100%;
+            height: 100%; 
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(#0f172a, rgba(0,0,0,0.8));
+            color: white;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .overlay h4 { font-family: 'Playfair Display', serif; color: var(--pastel-blue); margin-bottom: 5px; }
+
+        .img-panel .bottom-frame { height: 0%; }
+
+        /* --- 4. Values Section --- */
+        .values-pin-wrapper {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            padding: 20px;
+            border-top: 1px solid rgba(168, 208, 230, 0.2);
+        }
+
+        .header-text {
+            width: 100%;
+            max-width: 900px;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--dark-blue);
+            margin-bottom: 40px;
+            opacity: 0; 
+            border-left: 4px solid var(--pastel-blue);
+            padding-left: 15px;
+        }
+
+        .staircase {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 900px;
+        }
+
+        .stair {
+            width: var(--step-w);
+            height: var(--step-h);
+            background: linear-gradient(135deg, var(--pastel-blue), var(--light-blue));
+            color: var(--dark-blue);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(168, 208, 230, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .icon-box {
+            background: rgba(255, 255, 255, 0.3);
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 12px;
+        }
+
+        .stair:nth-child(1) { align-self: flex-start; }
+        .stair:nth-child(2) { margin-left: 200px; }
+        .stair:nth-child(3) { margin-left: 400px; }
+        .stair:nth-child(4) { margin-left: 600px; }
+
+        /* --- UPDATED: 53rd Anniversary Stars (More, varied sizes, golden) --- */
+        .gold-star {
+            position: absolute;
+            background: radial-gradient(circle, #FFD700, #DAA520);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(218,165,32,0.5);
+        }
+
+        /* --- 5. Carousel Section --- */
+        .carousel-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background: var(--dark-blue);
+            overflow: hidden;
+            opacity: 1;
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            width: 400vw; 
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            flex-shrink: 0;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 40%;
+            left: 8%;
+            transform: translateY(-50%);
+            color: white;
+            z-index: 10;
+            max-width: 50%;
+        }
+
+        .slide-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 1rem;
+            color: var(--pastel-blue);
+        }
+
+        .slide-description-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px 8%;
+            color: #ddd;
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 20;
+        }
+
+        .carousel-nav-sidebar {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav-item-carousel {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: all 0.4s ease;
+            justify-content: flex-end;
+        }
+
+        .nav-item-carousel.active { opacity: 1; }
+        .nav-item-carousel span { color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+        .nav-preview { width: 60px; height: 60px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: border-color 0.4s; }
+        .nav-item-carousel.active .nav-preview { border-color: var(--pastel-blue); transform: scale(1.1); }
+        .nav-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- 6. Moving Banner Styles --- */
+        .admission-banner {
+            background: var(--dark-blue);
+            color: var(--white);
+            padding: 16px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 50;
+            border-top: 4px solid var(--pastel-blue);
+            border-bottom: 4px solid var(--pastel-blue);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .marquee-track-container {
+            display: flex;
+            width: fit-content;
+            animation: marquee 25s linear infinite;
+        }
+        
+        .admission-banner:hover .marquee-track-container {
+            animation-play-state: paused;
+        }
+
+        .marquee-content-set {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            margin-right: 120px;
+        }
+
+        .marquee-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-right: 25px;
+            letter-spacing: 1px;
+            font-style: italic;
+            color: var(--pastel-blue);
+        }
+
+        /* --- UPDATED: Golden border for Apply Now button --- */
+        .apply-btn {
+            background: linear-gradient(135deg, var(--pastel-blue), var(--light-blue));
+            border: 3px solid #FFD700;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: var(--dark-blue);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(218,165,32,0.3);
+        }
+
+        .apply-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(218,165,32,0.6);
+            color: var(--dark-blue);
+            border-color: #FFC800;
+        }
+
+        /* --- 7. Testimonial Section - REDUCED SIZE & CIRCULAR IMAGE --- */
+        .testimonial-section {
+            width: 100vw;
+            height: 60vh; /* Reduced from 80vh */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: var(--cream);
+            padding: 20px 0;
+        }
+
+        .slider-container {
+            width: 80%; /* Reduced width */
+            max-width: 800px; /* Reduced from 950px */
+            height: 280px; /* Reduced from 380px */
+            position: relative;
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            padding: 20px;
+        }
+
+        .card.active { 
+            opacity: 1; 
+            visibility: visible;
+        }
+
+        .card-image { 
+            width: 20%; /* 20% area */
+            background-size: cover; 
+            background-position: center; 
+            border-radius: 50%; /* Circular image */
+            aspect-ratio: 1/1; /* Perfect circle */
+            margin-right: 25px;
+            align-self: center;
+            border: 3px solid var(--pastel-blue);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-content { 
+            width: 80%; /* Remaining 80% */
+            padding: 15px;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            position: relative; 
+        }
+
+        .quote-icon {
+            font-size: 50px;
+            color: #e2e8f0;
+            position: absolute;
+            top: 0px;
+            left: 10px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            color: var(--slate-900);
+            line-height: 1.4;
+            z-index: 1;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .parent-name { 
+            font-size: 1rem;
+            font-weight: 800; 
+            margin: 0; 
+            color: var(--dark-blue); 
+        }
+        
+        .student-details { 
+            color: var(--pastel-blue); 
+            font-weight: 600; 
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 35px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: var(--dark-blue);
+        }
+
+        .nav-arrow:hover { background: var(--pastel-blue); color: white; transform: translateY(-50%) scale(1.1); }
+        .prev-arrow { left: -15px; }
+        .next-arrow { right: -15px; }
+
+        /* --- 8. Leadership Section - REDUCED HEIGHT --- */
+        .spacer { 
+            height: 40vh; /* Reduced from 60vh */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--dark-blue); 
+            letter-spacing: 5px; 
+            font-weight: bold; 
+            background: var(--cream); 
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        #master-container { 
+            position: relative; 
+            height: 80vh; /* Reduced from 100vh */
+            width: 100%; 
+            overflow: hidden; 
+            background-color: var(--dark-blue); 
+        }
+
+        .title-group {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: left;
+            width: fit-content;
+            white-space: nowrap; 
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        .name { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 80px; 
+            font-weight: 900; 
+            color: var(--pastel-blue); 
+            margin: 0; 
+            line-height: 1.1; 
+        }
+
+        .designation { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 35px; 
+            font-style: italic; 
+            color: white; 
+            margin: 5px 0; 
+        }
+
+        .school { 
+            font-size: 24px; 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            font-weight: 600; 
+            margin-top: 10px; 
+            color: #eee; 
+        }
+
+        .royal-line { 
+            width: 100%; 
+            height: 1px; 
+            background: linear-gradient(90deg, var(--pastel-blue), transparent); 
+            margin: 12px 0; 
+        }
+        
+        .branches-wrapper { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            color: #fff; 
+            font-size: 20px; 
+            transform-origin: left top; 
+        }
+
+        .flourish { width: 50px; height: auto; }
+        .dot { color: var(--pastel-blue); font-size: 24px; }
+
+        .leadership-slide { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            opacity: 0; 
+            visibility: hidden; 
+        }
+
+        .left-side { 
+            flex: 1; 
+            padding-left: 8%; 
+            display: flex; 
+            align-items: center; 
+        }
+
+        .right-side { 
+            flex: 1; 
+            background-position: center !important; 
+            background-size: cover !important; 
+        }
+
+        .description-box { 
+            margin-top: 150px; /* Reduced from 200px */
+            padding-right: 50px; 
+        }
+
+        .desc-text { 
+            font-size: 15px; 
+            line-height: 1.5; 
+            color: #ccc; 
+            max-width: 550px; 
+            text-align: justify; 
+            margin: 0; 
+        }
+        
+        .quote-style { 
+            font-family: 'Playfair Display', serif; 
+            font-style: italic; 
+            color: var(--pastel-blue); 
+            font-size: 17px; 
+            margin-bottom: 12px; 
+            border-left: 3px solid var(--pastel-blue);
+            padding-left: 15px;
+            line-height: 1.4;
+        }
+
+        /* --- 9. Blog Section - RESTORED ELEGANT HEADER --- */
+        .blog-section { 
+            padding: 60px 4% 80px 4%; 
+            background: var(--cream); 
+        }
+
+        .campus-header {
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .campus-header h2 {
+            font-size: 3rem;
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .campus-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        .campus-header p {
+            color: var(--maroon);
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 25px;
+            font-weight: 500;
+        }
+        
+        .blog-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            margin-top: 20px;
+        }
+
+        /* --- 10. REDESIGNED Admission Portal Section --- */
+        .admission-portal-section {
+            min-height: 100vh;
+            display: flex;
+            background: linear-gradient(135deg, var(--cream) 0%, #f0f2f5 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Left Side - Animated Gallery */
+        .gallery-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .gallery-container {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(9, 75px);
+            grid-template-rows: repeat(6, 75px);
+            gap: 10px;
+            transform: scale(0.95);
+        }
+
+        .gallery-banner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 400px;
+            height: 140px;
+            border-radius: 80px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gallery-banner h1 { 
+            font-size: 1.5rem; 
+            margin: 0; 
+            font-weight: 800;
+            padding:5px;
+            color: var(--maroon);
+            font-style: italic;
+        }
+
+        .gallery-banner p { 
+            margin: 5px 0 0; 
+            color: var(--dark-blue); 
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .gallery-tile {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .shape-circle { border-radius: 50%; }
+        .shape-leaf-tl { border-radius: 60% 0 60% 60%; }
+        .shape-leaf-tr { border-radius: 0 60% 60% 60%; }
+        .shape-leaf-br { border-radius: 60% 60% 0 60%; }
+        .shape-leaf-bl { border-radius: 60% 60% 60% 0; }
+        .shape-square { border-radius: 12px; }
+
+        /* Right Side - Admission Form */
+        .form-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            background: var(--white);
+            position: relative;
+        }
+
+        .form-container { 
+            background: var(--white); 
+            width: 100%; 
+            max-width: 420px; 
+            padding: 35px; 
+            border-radius: 25px; 
+            border: 1.5px solid var(--pastel-blue); 
+            box-shadow: 0 25px 60px rgba(168, 208, 230, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(135deg, var(--pastel-blue) 0%, var(--maroon) 100%);
+            border-radius: 30px;
+            z-index: -1;
+            opacity: 0.05;
+        }
+
+        .input-group { 
+            opacity: 0; 
+            transform: translateY(15px); 
+            margin-bottom: 15px; 
+        }
+        
+        label { 
+            display: block; 
+            font-size: 0.65rem; 
+            font-weight: 800; 
+            color: var(--dark-blue); 
+            margin-bottom: 6px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.8px; 
+        }
+        
+        input, select { 
+            width: 100%; 
+            padding: 12px 16px; 
+            font-size: 0.9rem; 
+            border: 2px solid var(--pastel-blue); 
+            border-radius: 12px; 
+            outline: none; 
+            transition: 0.3s; 
+            background: var(--white);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        input:focus, select:focus { 
+            border-color: var(--maroon); 
+            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1); 
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 12px; }
+
+        .submit-btn { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--maroon); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            font-size: 1rem; 
+            transition: 0.3s;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover { 
+            background: #600000; 
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(128, 0, 0, 0.2);
+        }
+
+        /* Success State */
+        #success-content { display: none; text-align: center; opacity: 0; }
+       /* Replace the existing checkmark-circle and checkmark-check styles with these */
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    fill: none;
+    visibility: hidden;
+}
+
+.checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke-width: 5;
+    stroke-linecap: round;
+    fill: none;
+    visibility: hidden;
+}
+
+/* Add this to ensure the SVG container doesn't clip the circle */
+.checkmark-svg {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    overflow: visible;
+}
+        /* Section Title */
+        .admission-title {
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .admission-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .admission-title p {
+            color: var(--dark-blue);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* --- 11. ENHANCED Chatbot Widget - EARLY VISIBILITY --- */
+        #chat-widget { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            z-index: 9999; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-end; 
+        }
+        
+        #chat-button { 
+            width: 50px; 
+            height: 50px; 
+            background: var(--maroon); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            border:4px solid var(--pastel-blue);
+            justify-content: center; 
+            cursor: pointer; 
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        #chat-button svg { fill: white; width: 24px; }
+
+        #chat-window { 
+            width: 380px; 
+            height: 550px; 
+            background: var(--white); 
+            border-radius: 24px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15); 
+            margin-bottom: 20px; 
+            display: none; 
+            flex-direction: column; 
+            overflow: hidden; 
+            border: 1px solid var(--pastel-blue);
+            transform-origin: bottom right;
+        }
+        
+        .chat-header { 
+            background: var(--maroon); 
+            color: white; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chat-body { 
+            flex: 1; 
+            padding: 20px; 
+            overflow-y: auto; 
+            background: var(--cream); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            max-height: 400px;
+        }
+        
+        .msg { 
+            padding: 12px 16px; 
+            border-radius: 16px; 
+            font-size: 0.85rem; 
+            max-width: 85%; 
+            line-height: 1.5; 
+        }
+        
+        .bot-msg { 
+            background: var(--white); 
+            border: 1px solid var(--pastel-blue); 
+            align-self: flex-start; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); 
+        }
+        
+        .user-msg { 
+            background: var(--maroon); 
+            color: white; 
+            align-self: flex-end; 
+        }
+
+        .chip-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            margin-top: 10px; 
+        }
+        
+        .chip { 
+            background: var(--white); 
+            border: 1.5px solid var(--maroon); 
+            color: var(--maroon); 
+            padding: 8px 14px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .chip:hover { background: var(--maroon); color: white; }
+
+        /* Chat Input Area */
+        .chat-input-area {
+            padding: 15px 20px;
+            background: var(--white);
+            border-top: 1px solid var(--pastel-blue);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        #chatInput {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid var(--pastel-blue);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #chatInput:focus {
+            border-color: var(--maroon);
+            box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
+        }
+
+        .chat-suggestions {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-chip {
+            background: var(--pastel-blue);
+            color: var(--dark-blue);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--light-blue);
+            transform: translateY(-1px);
+        }
+
+        .send-btn {
+            background: var(--maroon);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #600000;
+            transform: scale(1.1);
+        }
+
+        .send-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* --- 12. Mega Footer - 100% WIDTH & CENTERED LINKS --- */
+        .footer { 
+            background: var(--dark-blue); 
+            color: white; 
+            padding: 80px 20px 40px; 
+            width: 100%;
+            margin: 0;
+        }
+        
+        .footer-grid { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; 
+            gap: 40px; 
+        }
+        
+        .footer-col { 
+            opacity: 0; 
+            transform: translateY(20px); 
+        }
+        
+        .footer-col h4 { 
+            color: var(--pastel-blue); 
+            font-size: 0.85rem; 
+            font-weight: 800; 
+            margin-bottom: 25px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 12px; }
+        .footer-col a { 
+            color: var(--light-blue); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            transition: 0.3s; 
+        }
+        
+        .footer-col a:hover { color: white; padding-left: 5px; }
+
+        .footer-bottom { 
+            max-width: 1200px; 
+            margin: 60px auto 0; 
+            padding-top: 30px; 
+            border-top: 1px solid rgba(255,255,255,0.08); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            gap: 30px;
+            opacity: 0;
+            flex-wrap: wrap;
+        }
+        
+        .copyright { 
+            color: var(--light-blue); 
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .footer-link {
+            color: var(--light-blue); 
+            font-size: 0.85rem; 
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-separator {
+            color: var(--pastel-blue);
+            font-size: 0.85rem;
+            margin: 0 5px;
+        }
+
+        /* --- 13. Modal Styles --- */
+        #blogModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; display: none;
+            align-items: center; justify-content: center; backdrop-filter: blur(15px);
+            padding: 40px;
+        }
+
+        .modal-container { 
+            width: 100%; max-width: 1100px; 
+            color: white; 
+            display: flex;
+            align-items: center; 
+            overflow: hidden; 
+        }
+
+        .modal-img-wrapper { 
+            width: 100%; height: 500px; 
+            border-radius: 15px; overflow: hidden;
+            flex-shrink: 0; 
+        }
+        
+        .modal-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .modal-text-content {
+            width: 0%; opacity: 0; padding-left: 0;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        #modalTitle { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 15px; line-height: 1.1; }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 1200px) {
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+            .name { font-size: 60px; }
+            .designation { font-size: 25px; }
+            .school { font-size: 18px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-container {
+                grid-template-columns: repeat(9, 50px);
+                grid-template-rows: repeat(6, 50px);
+                gap: 8px;
+            }
+            .gallery-banner {
+                width: 350px;
+                height: 120px;
+            }
+            .slider-container {
+                max-width: 700px;
+                height: 260px;
+            }
+            .campus-header h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .admission-portal-section {
+                flex-direction: column;
+            }
+            .gallery-side, .form-side {
+                flex: none;
+                width: 100%;
+            }
+            .gallery-side {
+                height: 60vh;
+                padding: 40px 20px;
+            }
+            .form-side {
+                padding: 60px 20px;
+            }
+            .testimonial-section {
+                height: auto;
+                min-height: 50vh;
+                padding: 40px 20px;
+            }
+            .slider-container {
+                height: 300px;
+            }
+            .campus-header h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid { grid-template-columns: 1fr; }
+            .marquee-text { font-size: 1.1rem; }
+            .card { flex-direction: column; height: auto; padding: 15px; }
+            .card-image { 
+                width: 80px; 
+                height: 80px; 
+                margin: 0 auto 15px;
+            }
+            .card-content { 
+                width: 100%; 
+                padding: 15px; 
+                text-align: center;
+            }
+            .testimonial-text { font-size: 1rem; }
+            .slider-container { 
+                height: auto; 
+                min-height: 400px;
+                width: 90%;
+            }
+            .nav-arrow { 
+                bottom: -40px; 
+                top: auto; 
+                transform: none; 
+                width: 35px;
+                height: 35px;
+            }
+            .prev-arrow { left: 30%; }
+            .next-arrow { right: 30%; }
+            .name { font-size: 40px; }
+            .designation { font-size: 20px; }
+            .school { font-size: 14px; letter-spacing: 4px; }
+            .branches-wrapper { font-size: 14px; }
+            .form-row-3 { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .modal-container { flex-direction: column; text-align: center; }
+            .modal-img-wrapper { height: 300px; width: 100% !important; }
+            .modal-text-content { width: 100% !important; opacity: 1 !important; padding-left: 0 !important; padding-top: 20px; }
+            #chat-window { 
+                width: 320px; 
+                height: 500px; 
+                right: 10px;
+                bottom: 80px;
+            }
+            .gallery-container {
+                grid-template-columns: repeat(9, 40px);
+                grid-template-rows: repeat(6, 40px);
+                gap: 6px;
+                transform: scale(0.85);
+            }
+            .gallery-banner {
+                width: 280px;
+                height: 100px;
+                border-radius: 60px;
+            }
+            .gallery-banner h1 { 
+                font-size: 1.5rem; 
+            }
+            .gallery-banner p { 
+                font-size: 0.85rem;
+            }
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: center;
+                gap: 15px;
+            }
+            .chat-input-area {
+                padding: 10px 15px;
+            }
+            #chatInput {
+                padding: 10px 40px 10px 12px;
+                font-size: 0.85rem;
+            }
+            .campus-header h2 {
+                font-size: 1.8rem;
+            }
+            .campus-header p {
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+            }
+            #master-container {
+                height: 70vh;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .staircase { width: 100%; }
+            .stair { width: 80%; margin-left: 0 !important; }
+            .carousel-nav-sidebar { right: 20px; }
+            .nav-preview { width: 40px; height: 40px; }
+            .apply-btn { padding: 6px 15px; font-size: 0.7rem; }
+            .slide-content { max-width: 90%; left: 5%; }
+            .slide-content h2 { font-size: 2.5rem; }
+            .gallery-container {
+                grid-template-columns: repeat(9, 30px);
+                grid-template-rows: repeat(6, 30px);
+                gap: 4px;
+                transform: scale(0.8);
+            }
+            .gallery-banner {
+                width: 240px;
+                height: 90px;
+                border-radius: 50px;
+            }
+            .gallery-banner h1 { 
+                font-size: 1.3rem; 
+            }
+            .gallery-banner p { 
+                font-size: 0.75rem;
+            }
+            .admission-title h2 {
+                font-size: 2rem;
+            }
+            #chat-window {
+                width: 300px;
+                height: 480px;
+            }
+            .slider-container {
+                min-height: 380px;
+            }
+            .testimonial-text {
+                font-size: 0.95rem;
+            }
+            .card-content {
+                padding: 15px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .campus-header h2 {
+                font-size: 1.6rem;
+            }
+            .campus-header p {
+                font-size: 0.8rem;
+                letter-spacing: 1.5px;
+            }
+            .spacer {
+                height: 30vh;
+            }
+            #master-container {
+                height: 60vh;
+            }
+        }
+
+        .blog-card { 
+            background: white; border-radius: 20px; overflow: hidden; cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid var(--pastel-blue);
+        }
+        .blog-img-box { height: 200px; overflow: hidden; }
+        .blog-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .blog-card:hover .blog-img-box img { transform: scale(1.1); }
+        .blog-info { padding: 25px 20px; }
+        .blog-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--dark-blue); margin-bottom: 12px; display: flex; justify-content: space-between; }
+        .blog-info h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark-blue); }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* --- Menu active state hide elements --- */
+        body.is-active .back-to-top,
+        body.is-active #chat-widget,
+        body.is-active #chat-button {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+    </style>
+</head>
+<body id="body-wrap">
+
+    <!-- Hamburger Menu -->
+    <header class="nav-header">
+         <div class="menu-toggle" id="menuBtn">
+            <span class="line line-1"></span>
+            <span class="line line-2"></span>
+        </div>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="overlay">
+        <div class="split-layout">
+            <div class="left-pane">
+                <div class="nav-item active" onclick="selectTopic('academics', this)">Academics</div>
+                <div class="nav-item" onclick="selectTopic('campus', this)">Campus Life</div>
+                <div class="nav-item" onclick="selectTopic('about', this)">About Us</div>
+                <div class="nav-item" onclick="selectTopic('connect', this)">Connect</div>
+            </div>
+
+            <div class="right-pane">
+                <div id="sub-container" class="sub-box">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="pin-section">
+        <div class="welcome-text">Welcome To</div>
+        <div class="headline-wrapper">
+            <span class="word">Modern</span>
+            <div class="image-reveal">
+                <img src="main.png" alt="Campus">
+            </div>
+            <span class="word">School</span>
+        </div>
+    </section>
+
+    <!-- 53rd Anniversary Section - MANY GOLD STARS, DIFFERENT SIZES -->
+    <div class="anniversary-footer">
+        <!-- Many golden stars with varying sizes -->
+        <div class="gold-star" style="top: 15%; left: 8%; width: 22px; height: 22px;"></div>
+        <div class="gold-star" style="top: 12%; right: 20%; width: 35px; height: 35px;"></div>
+        <div class="gold-star" style="top: 25%; left: 25%; width: 18px; height: 18px;"></div>
+        <div class="gold-star" style="top: 40%; right: 10%; width: 40px; height: 40px;"></div>
+        <div class="gold-star" style="top: 55%; left: 12%; width: 28px; height: 28px;"></div>
+        <div class="gold-star" style="top: 70%; right: 15%; width: 32px; height: 32px;"></div>
+        <div class="gold-star" style="top: 80%; left: 20%; width: 20px; height: 20px;"></div>
+        <div class="gold-star" style="top: 85%; right: 25%; width: 25px; height: 25px;"></div>
+        <div class="gold-star" style="top: 95%; left: 30%; width: 30px; height: 30px;"></div>
+        <div class="gold-star" style="top: 10%; left: 45%; width: 15px; height: 15px;"></div>
+        <div class="gold-star" style="top: 45%; left: 35%; width: 45px; height: 45px;"></div>
+        <div class="gold-star" style="top: 60%; left: 50%; width: 20px; height: 20px;"></div>
+        <div class="gold-star" style="top: 35%; right: 35%; width: 50px; height: 50px;"></div>
+        <div class="gold-star" style="top: 75%; right: 45%; width: 28px; height: 28px;"></div>
+        <div class="gold-star" style="top: 88%; left: 65%; width: 38px; height: 38px;"></div>
+        <div class="gold-star" style="top: 18%; left: 75%; width: 24px; height: 24px;"></div>
+        <div class="gold-star" style="top: 52%; right: 65%; width: 42px; height: 42px;"></div>
+        <div class="gold-star" style="top: 68%; left: 80%; width: 19px; height: 19px;"></div>
+        <div class="gold-star" style="top: 82%; right: 70%; width: 35px; height: 35px;"></div>
+        <div class="gold-star" style="top: 28%; left: 88%; width: 30px; height: 30px;"></div>
+        <div class="gold-star" style="top: 48%; right: 80%; width: 25px; height: 25px;"></div>
+        <div class="gold-star" style="top: 72%; left: 92%; width: 22px; height: 22px;"></div>
+        
+        <p class="anniversary-text">Celebrating</p>
+        <h2 class="number-53">53<span>rd</span></h2>
+        <p class="glorious-text">Glorious Years</p>
+    </div>
+
+    <!-- CHATBOT WIDGET - NOW VISIBLE IMMEDIATELY AFTER 53RD SECTION -->
+
+    <section class="split-section">
+        <div class="img-panel panel-left">
+            <div class="img-frame top-frame">
+                <img src="01_hof.png" alt="History 1">
+                <div class="overlay"><h4>Modernites @MUN-25 Jaipur</h4><p>Modernites shinning bright in their achievements.</p></div>
+            </div>
+            <div class="img-frame bottom-frame">
+                    <img src="02_hof.png" alt="History 2">
+                    <div class="overlay"><h4>Inter-school Swimming Championship</h4><p>Winners are proud of their achievements.</p></div>
+            </div>
+        </div>
+        <div class="description-side">
+            <h3>Hall Of Fame</h3>
+            <p>For over five decades, we have been at the forefront of academic excellence.</p>
+        </div>
+        <div class="img-panel panel-right">
+            <div class="img-frame top-frame">
+                <img src="03_hof.png" alt="Campus 1">
+                <div class="overlay"><h4> Inter-school Volleyball Championship</h4><p>Winners are proud of their achievements.</p></div>
+            </div>
+            <div class="img-frame bottom-frame">
+                <img src="04_hof.png" alt="Campus 2">
+                <div class="overlay"><h4>Cultural Hub</h4><p>Vibrant expression.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="values-pin-wrapper">
+        <h2 class="header-text">The operating values that drive us are:</h2>
+        <div class="staircase">
+            <div class="stair"><div class="icon-box"><i data-lucide="shield-check"></i></div>Discipline</div>
+            <div class="stair"><div class="icon-box"><i data-lucide="smile"></i></div>Courtesy</div>
+            <div class="stair"><div class="icon-box"><i data-lucide="zap"></i></div>Efficiency</div>
+            <div class="stair"><div class="icon-box"><i data-lucide="heart"></i></div>Care</div>
+        </div>
+    </div>
+
+    <!-- Carousel Section -->
+    <section class="carousel-section">
+        <div class="carousel-nav-sidebar">
+            <div class="nav-item-carousel active" data-index="0">
+                <span>Future Ready</span>
+                <div class="nav-preview"><img src="intro2a.JPG" alt="p1"></div>
+            </div>
+            <div class="nav-item-carousel" data-index="1">
+                <span>Tiny hands, big dreams, bright future.</span>
+                <div class="nav-preview"><img src="intro2b.JPG" alt="p2"></div>
+            </div>
+            <div class="nav-item-carousel" data-index="2">
+                <span>Adaptable. Resilient. Ready</span>
+                <div class="nav-preview"><img src="intro2e.JPG" alt="p3"></div>
+            </div>
+            <div class="nav-item-carousel" data-index="3">
+                <span>Strong Roots</span>
+                <div class="nav-preview"><img src="intro2d.JPG" alt="p4"></div>
+            </div>
+        </div>
+
+        <div class="carousel-track">
+            <div class="carousel-slide">
+                <img src="intro2a.JPG" alt="Graduation">
+                <div class="slide-content"><h2>Future Ready</h2></div>
+                <div class="slide-description-bar">Equipping our students with the heart and mind to lead in tomorrow's world.</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="intro2b.JPG" alt="Classroom">
+                <div class="slide-content"><h2>Tiny hands, big dreams, bright future.</h2></div>
+                <div class="slide-description-bar">Where curious minds meet modern tools to build a brighter future every day.</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="intro2e.JPG" alt="Library">
+                <div class="slide-content"><h2>Adaptable. Resilient. Ready</h2></div>
+                <div class="slide-description-bar">Discovering the joy of reading and the power of knowledge in every chapter.</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="intro2d.JPG" alt="Campus Arch">
+                <div class="slide-content"><h2>Strong Roots</h2></div>
+                <div class="slide-description-bar">Growing together through 53 years of tradition, values, and community.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="admission-banner">
+        <div class="marquee-track-container">
+            <div class="marquee-content-set">
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+            </div>
+            <div class="marquee-content-set">
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+                <div class="marquee-item">
+                    <span class="marquee-text">Admission Open for Academic Year 2026-2027</span>
+                    <button class="apply-btn" onclick="scrollToAdmissionForm()">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonial Section - REDUCED SIZE & CIRCULAR IMAGE 20% -->
+    <div class="testimonial-section">
+        <div class="slider-container">
+            <button class="nav-arrow prev-arrow" onclick="move('prev')">❮</button>
+            <button class="nav-arrow next-arrow" onclick="move('next')">❯</button>
+
+            <div class="card active">
+                <div class="card-image" style="background-image: url('dummy.png')"></div>
+                <div class="card-content">
+                    <div class="quote-icon">"</div>
+                    <p class="testimonial-text">"My daughter's confidence has soared since joining the music program. The teachers are truly invested in every child's success."</p>
+                    <h4 class="parent-name">Mrs. Kavita Jain</h4>
+                    <p class="student-details">Parent of Divya • Class 4-A</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background-image: url('dummy.png')"></div>
+                <div class="card-content">
+                    <div class="quote-icon">"</div>
+                    <p class="testimonial-text">"The STEM lab is world-class. My son is already coding robots, and he's only in Grade 7! Best educational investment we've made."</p>
+                    <h4 class="parent-name">Mr. Rajesh Sharma</h4>
+                    <p class="student-details">Parent of Rahul • Class 7-D</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer">LEADERSHIP & VISION</div>
+
+    <section id="master-container">
+        <div id="chairman-group" class="title-group">
+            <div class="name">Dr. Deepak Singh</div>
+            <div class="designation">Chairman</div>
+            <div class="school">Modern School</div>
+            <div class="royal-line"></div>
+            <div class="branches-wrapper">
+                <svg class="flourish" viewBox="0 0 100 40"><path d="M10,20 Q40,0 60,20 T90,20" fill="none" stroke="#d4af37" stroke-width="4"/></svg>
+                <span>Kota <span class="dot">·</span> Naya Nohra <span class="dot">·</span> Jaipur <span class="dot">·</span> Baran <span class="dot">·</span> Bharatpur</span>
+                <svg class="flourish" viewBox="0 0 100 40" style="transform: scaleX(-1);"><path d="M10,20 Q40,0 60,20 T90,20" fill="none" stroke="#d4af37" stroke-width="4"/></svg>
+            </div>
+        </div>
+
+        <div id="chairman-slide" class="leadership-slide">
+            <div class="left-side">
+                <div class="description-box chairman-desc">
+                    <p class="desc-text">
+                        Goal setting is not a mind game. It is a process of developing the internal willpower to accomplish what you have set out to do. I wish that all the Modernites look beyond the internal barriers and push through on the road to success. Face the challenges with courage, as challenges are goals pursued with conviction.
+                    </p>
+                </div>
+            </div>
+            <div class="right-side" style="background: linear-gradient(to right, var(--bg-dark), transparent 70%), url('chairman.jpg');"></div>
+        </div>
+
+        <div id="director-group" class="title-group" style="opacity: 0;">
+            <div class="name">Mr. Vaibhav Singh</div>
+            <div class="designation">Director</div>
+            <div class="school">Modern School</div>
+            <div class="royal-line"></div>
+            <div class="branches-wrapper">
+                <svg class="flourish" viewBox="0 0 100 40"><path d="M10,20 Q40,0 60,20 T90,20" fill="none" stroke="#d4af37" stroke-width="4"/></svg>
+                <span>Kota <span class="dot">·</span> Naya Nohra <span class="dot">·</span> Jaipur <span class="dot">·</span> Baran <span class="dot">·</span> Bharatpur</span>
+                <svg class="flourish" viewBox="0 0 100 40" style="transform: scaleX(-1);"><path d="M10,20 Q40,0 60,20 T90,20" fill="none" stroke="#d4af37" stroke-width="4"/></svg>
+            </div>
+        </div>
+
+        <div id="director-slide" class="leadership-slide">
+            <div class="left-side">
+                <div class="description-box director-desc">
+                    <p class="quote-style">
+                        "If you are trying to find out what you want to do with your life, look for sparks." - Nelson Mandela
+                    </p>
+                    <p class="desc-text">
+                        When you set sail in search of your life's work, you must seek passion. Strive to do your work with gratitude and conviction. Make a difference in your own way.
+                    </p>
+                </div>
+            </div>
+            <div class="right-side" style="background: linear-gradient(to right, var(--bg-dark), transparent 70%), url('director.jpg');"></div>
+        </div>
+    </section>
+
+    <!-- CAMPUS INSIGHTS - RESTORED ELEGANT HEADER -->
+    <section class="blog-section">
+        <div class="campus-header">
+            <h2>EXPLORE CAMPUS INSIGHTS</h2>
+            <p>Stories • Achievements • Innovation</p>
+        </div>
+        <div class="blog-grid">
+            <div class="blog-card" onclick="openModal('MUN-25 | @Modern School Jaipur', 'We are redefining science and technology education through hands-on robotics labs and AI-driven curriculum. Our students are now building drones and coding solutions for real-world problems.', 'blog1.png', '6 min read', 'OCT 12, 2025')">
+                <div class="blog-img-box"><img src="blog1.png"></div>
+                <div class="blog-info">
+                    <div class="blog-meta"><span>Oct 12, 2025</span><span>6 min read</span></div>
+                    <h3>MUN-25 | @Modern School Jaipur</h3>
+                </div>
+            </div>
+            <div class="blog-card" onclick="openModal('Social Science Exhibition 2025', 'Our annual sports meet showed that leadership is built on the field just as much as in the classroom. Team spirit and resilience were the true winners of the day.', 'blog2.png', '4 min read', 'NOV 05, 2025')">
+                <div class="blog-img-box"><img src="blog2.png"></div>
+                <div class="blog-info">
+                    <div class="blog-meta"><span>Nov 05, 2025</span><span>4 min read</span></div>
+                    <h3>Social Science Exhibition 2025</h3>
+                </div>
+            </div>
+            <div class="blog-card" onclick="openModal('MODFEST-25 | Annual Dance Festival', 'Art is not just a subject, but a language. The annual art exhibition showcased breathtaking works from our senior students, ranging from oil canvases to digital sculptures.', 'blog3.png', '5 min read', 'NOV 20, 2025')">
+                <div class="blog-img-box"><img src="blog3.png"></div>
+                <div class="blog-info">
+                    <div class="blog-meta"><span>Nov 20, 2025</span><span>5 min read</span></div>
+                    <h3>MODFEST-25 | Annual Dance Festival</h3>
+                </div>
+            </div>
+            <div class="blog-card" onclick="openModal('Inter-School Sports Day', 'True education serves the community. Over 200 students participated in our city clean-up drive this weekend, demonstrating that modern values include civic responsibility.', 'blog4.png', '3 min read', 'DEC 01, 2025')">
+                <div class="blog-img-box"><img src="blog4.png"></div>
+                <div class="blog-info">
+                    <div class="blog-meta"><span>Dec 01, 2025</span><span>3 min read</span></div>
+                    <h3>Inter-School Sports Day</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Redesigned Admission Portal Section -->
+    <section class="admission-portal-section" id="admissionFormSection">
+        <div class="gallery-side">
+            <div class="gallery-container" id="grid">
+                <div class="gallery-banner">
+                    <h1>Shape a Brighter Future Today</h1>
+                    <p>A nurturing environment where dreams grow into achievements.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-side">
+            <div class="form-container" id="box">
+                <div class="admission-title">
+                    <h2>Admission Enquiry</h2>
+                    <p>Session 2026 - 2027</p>
+                </div>
+                
+                <div id="form-content">
+                    <form id="admissionForm">
+                        <div class="input-group"><label>Student Name</label><input type="text" placeholder="Full Name" required></div>
+                        <div class="input-group"><label>Father's Name</label><input type="text" placeholder="Guardian Name" required></div>
+                        
+                        <div class="form-row-3">
+                            <div class="input-group"><label>Apply For</label>
+                                <select required>
+                                    <option value="">Select</option><option>LKG</option><option>HKG</option>
+                                    <script>for(let i=1; i<=12; i++) document.write(`<option>Class ${i}</option>`);</script>
+                                </select>
+                            </div>
+                            <div class="input-group"><label>Current</label>
+                                <select required>
+                                    <option value="">Select</option><option>Nursery</option><option>LKG</option><option>HKG</option>
+                                    <script>for(let i=1; i<=11; i++) document.write(`<option>Class ${i}</option>`);</script>
+                                </select>
+                            </div>
+                            <div class="input-group"><label>DOB</label><input type="date" required></div>
+                        </div>
+
+                        <div class="input-group"><label>Parent's Mobile</label><input type="tel" maxlength="10" placeholder="10 Digits" required></div>
+                        
+                        <button type="submit" class="submit-btn">Submit Application</button>
+                    </form>
+                </div>
+
+                <!-- Replace the existing success-content div with this corrected version -->
+<div id="success-content">
+    <svg class="checkmark-svg" viewBox="0 0 52 52" style="width: 80px; height: 80px; overflow: visible;">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="var(--success)" stroke-width="3" stroke-dasharray="166" stroke-dashoffset="166" style="stroke: var(--success);"/>
+        <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" fill="none" stroke="var(--success)" stroke-width="5" stroke-linecap="round" stroke-dasharray="48" stroke-dashoffset="48" style="stroke: var(--success);"/>
+    </svg>
+    <h2 style="font-weight: 800; color: var(--dark-blue);">Application Sent!</h2>
+    <p style="color: var(--dark-blue); margin-top: 10px; opacity: 0.8;">Modern School, Kota will contact you shortly.</p>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENHANCED Chatbot Widget - FULLY VISIBLE FROM START -->
+    <div id="chat-widget">
+        <div id="chat-window">
+            <div class="chat-header">
+                <div><h4 style="font-size: 0.9rem;">Modern Assistant</h4><p style="font-size: 0.6rem; opacity: 0.7;">Always Active</p></div>
+                <span id="close-chat" style="cursor:pointer; font-size: 1.5rem;">×</span>
+            </div>
+            <div class="chat-body" id="chat-box">
+                <div class="msg bot-msg">Hello! How can I help you navigate Modern School today? Feel free to ask about admissions, facilities, or anything else!</div>
+                <div class="chip-container" id="chat-chips">
+                    <div class="chip" onclick="quickResponse('Admission process')">Admission Process</div>
+                    <div class="chip" onclick="quickResponse('Fee structure')">Fee Structure</div>
+                    <div class="chip" onclick="quickResponse('School facilities')">Facilities</div>
+                    <div class="chip" onclick="quickResponse('Contact information')">Contact Info</div>
+                </div>
+            </div>
+            
+            <!-- Chat Input Area -->
+            <div class="chat-input-area">
+                <div class="chat-input-wrapper">
+                    <input type="text" id="chatInput" placeholder="Type your message here..." autocomplete="off">
+                    <div class="chat-suggestions" id="suggestions">
+                        <div class="suggestion-chip" onclick="insertSuggestion('What is the admission criteria?')">Admission criteria</div>
+                        <div class="suggestion-chip" onclick="insertSuggestion('When does the session start?')">Session start</div>
+                        <div class="suggestion-chip" onclick="insertSuggestion('What facilities are available?')">Facilities</div>
+                    </div>
+                </div>
+                <button class="send-btn" id="sendMessage">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="chat-button"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+    </div>
+
+    <!-- Footer - 100% WIDTH & CENTERED COPYRIGHT + TERMS/PRIVACY -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h2 style="color: white; font-weight: 800; margin-bottom: 15px; font-family: 'Playfair Display', serif;">MODERN SCHOOL</h2>
+                <p style="color: var(--light-blue); font-size: 0.85rem; line-height: 1.6;">Leading the way in holistic education and academic excellence in Kota since 1996.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Academics</h4>
+                <ul>
+                    <li><a href="#">Curriculum</a></li>
+                    <li><a href="#">Calendar</a></li>
+                    <li><a href="#">Time Table</a></li>
+                    <li><a href="#">CBSE Corner</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">Tuition Fees</a></li>
+                    <li><a href="#">Disclosures</a></li>
+                    <li><a href="#">Alumni</a></li>
+                    <li><a href="#">Facilities</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About Us</h4>
+                <ul>
+                    <li><a href="#">Our History</a></li>
+                    <li><a href="#">Vision</a></li>
+                    <li><a href="#">Leadership</a></li>
+                    <li><a href="#">Career</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Location</a></li>
+                    <li><a href="#">TC Verification</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Branches</a></li>
+                </ul>
+            </div>
+        </div>
+       <div class="footer-bottom">
+            <p class="copyright">© 2026 Modern School, Kota. All Rights Reserved.</p>
+            <div class="footer-links-center" style="display: flex; gap: 8px;">
+                <a href="#" class="footer-link">Privacy</a>
+                <span class="footer-separator">|</span>
+                <a href="#" class="footer-link">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Blog Modal -->
+    <div id="blogModal">
+        <div style="position: absolute; top: 40px; right: 40px; color: white; cursor: pointer; font-size: 2.5rem; z-index: 2005;" onclick="closeModal()">×</div>
+        
+        <div class="modal-container">
+            <div id="modalImgWrapper" class="modal-img-wrapper">
+                <img id="modalImg" src="">
+            </div>
+            
+            <div id="modalTextContent" class="modal-text-content">
+                <h2 id="modalTitle"></h2>
+                <p id="modalMeta" style="color: var(--pastel-blue); letter-spacing: 2px; margin-bottom: 20px;"></p>
+                <p id="modalDesc" style="font-size: 1.2rem; line-height: 1.6; opacity: 0.8;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        // --- Hamburger Menu Logic ---
+        const navData = {
+            academics: {
+                tag: "Excellence in Education",
+                links: ["Curriculum", "Academic Calendar", "Fee Structure", "CBSE Disclosure"]
+            },
+            campus: {
+                tag: "Life at Modern",
+                links: ["Sports Facilities", "Hostel & Dining", "Science Labs", "Digital Library"]
+            },
+            about: {
+                tag: "Our Vision",
+                links: ["Leadership", "School History", "Vision & Mission", "Gallery"]
+            },
+            connect: {
+                tag: "Reach Us",
+                links: ["Main Campus", "Careers", "TC Verification", "Contact Admin"]
+            }
+        };
+
+        const btn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('overlay');
+        const subBox = document.getElementById('sub-container');
+        let isOpen = false;
+
+        function selectTopic(id, element) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            gsap.to(subBox, { opacity: 0, y: 10, duration: 0.2, onComplete: () => {
+                const data = navData[id];
+                let html = `<span class="sub-tag">${data.tag}</span>`;
+                data.links.forEach(l => {
+                    html += `<a href="#" class="sub-link">${l}</a>`;
+                });
+                subBox.innerHTML = html;
+
+                gsap.to(subBox, { opacity: 1, y: 0, duration: 0.4 });
+                gsap.to(".sub-link", { opacity: 1, x: 0, stagger: 0.05, duration: 0.4 });
+            }});
+        }
+
+        btn.onclick = () => {
+            isOpen = !isOpen;
+            document.body.classList.toggle('is-active');
+
+            if(isOpen) {
+                overlay.style.display = 'block';
+                gsap.to(overlay, { opacity: 1, duration: 0.4 });
+                gsap.from(".nav-item", { x: -30, opacity: 0, stagger: 0.1, duration: 0.5 });
+                selectTopic('academics', document.querySelector('.nav-item'));
+            } else {
+                gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => {
+                    overlay.style.display = 'none';
+                }});
+            }
+        };
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navHeader = document.querySelector('.nav-header');
+            if (window.scrollY > 100) {
+                navHeader.classList.add('scrolled');
+            } else {
+                navHeader.classList.remove('scrolled');
+            }
+        });
+
+        // 1. Reveal Timeline
+        const introTl = gsap.timeline({
+            scrollTrigger: { 
+                trigger: ".pin-section", 
+                start: "top top", 
+                end: "+=250%", 
+                scrub: 1.5, 
+                pin: true 
+            }
+        });
+        introTl.to(".image-reveal", { width: "550px", height: "400px", borderRadius: "20px", duration: 1 })
+               .to(".image-reveal", { width: "100vw", height: "100vh", margin: 0, borderRadius: 0, duration: 2 })
+               .to(".image-reveal img", { scale: 1, duration: 2 }, "<");
+
+        // 2. Hall of Fame Split
+        const splitTl = gsap.timeline({
+            scrollTrigger: { 
+                trigger: ".split-section", 
+                start: "top top", 
+                end: "+=350%", 
+                scrub: 1, 
+                pin: true 
+            }
+        });
+        splitTl.to(".img-panel img", { filter: "grayscale(0%)", duration: 1.5 })
+               .to(".panel-left", { width: "33.33%", padding: "15px", duration: 2 }, "<")
+               .to(".panel-right", { width: "33.33%", padding: "15px", duration: 2 }, "<")
+               .to(".description-side", { opacity: 1, y: 0, duration: 1.5 }, "-=1")
+               .to(".top-frame", { height: "50%", marginBottom: "10px", duration: 1.5 })
+               .to(".bottom-frame", { height: "50%", duration: 1.5 }, "<")
+               .to(".overlay", { opacity: 1, y: 0, stagger: 0.2 });
+
+        // 3. Values Timeline
+        const valuesTl = gsap.timeline({
+            scrollTrigger: { 
+                trigger: ".values-pin-wrapper", 
+                start: "top top", 
+                end: "+=1200", 
+                scrub: 1, 
+                pin: true 
+            }
+        });
+        valuesTl.to(".header-text", { opacity: 1, y: -10, duration: 1 })
+                .fromTo(".stair", { opacity: 0, x: -30, y: 15 }, { opacity: 1, x: 0, y: 0, stagger: 0.6, duration: 1.2, ease: "power2.out" }, "-=0.5");
+
+        // 4. Carousel
+        const carouselSlides = gsap.utils.toArray(".carousel-slide");
+        const navItems = gsap.utils.toArray(".nav-item-carousel");
+        const carouselTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".carousel-section", 
+                start: "top top", 
+                end: "+=400%", 
+                scrub: 1, 
+                pin: true,
+                onUpdate: (self) => {
+                    let activeIndex = Math.floor(self.progress * carouselSlides.length);
+                    if(activeIndex >= carouselSlides.length) activeIndex = carouselSlides.length - 1;
+                    navItems.forEach((nav, i) => i === activeIndex ? nav.classList.add('active') : nav.classList.remove('active'));
+                }
+            }
+        });
+        carouselTl.to(".carousel-track", { x: "-300vw", ease: "none", duration: 4 });
+
+        // 5. Testimonial Animation - REMOVED DELAY
+
+        // 6. Leadership Animation
+        const leadershipTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#master-container",
+                start: "top top",
+                end: "+=600%", 
+                scrub: 1,
+                pin: true
+            }
+        });
+
+        // Chairman Animation Sequence
+        leadershipTl.to("#chairman-group", {
+            top: "40px", left: "8%", xPercent: 0, yPercent: 0, scale: 0.5, duration: 3, ease: "none"
+        })
+        .to("#chairman-group .branches-wrapper", { scale: 2.0, duration: 3, ease: "none" }, "<")
+        .to("#chairman-slide", { autoAlpha: 1, duration: 1 }, "-=2.5")
+        .from("#chairman-slide .right-side", { xPercent: 100, duration: 3 }, "-=3")
+        .from(".chairman-desc", { autoAlpha: 0, y: 20, duration: 1.5 }, "-=1")
+        .to({}, { duration: 2 }) // Pause
+
+        // Transition out Chairman
+        .to("#chairman-group, #chairman-slide", { autoAlpha: 0, y: -40, duration: 1.5 })
+        
+        // Director Animation Sequence
+        .to("#director-group", { autoAlpha: 1, duration: 0.5 })
+        .to("#director-group", {
+            top: "40px", left: "8%", xPercent: 0, yPercent: 0, scale: 0.5, duration: 3, ease: "none"
+        })
+        .to("#director-group .branches-wrapper", { scale: 2.0, duration: 3, ease: "none" }, "<")
+        .to("#director-slide", { autoAlpha: 1, duration: 1 }, "-=2.5")
+        .from("#director-slide .right-side", { xPercent: 100, duration: 3 }, "-=3")
+        .from(".director-desc", { autoAlpha: 0, y: 20, duration: 1.5 }, "-=1");
+
+        // 7. Blog section animation
+        const blogTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".blog-section",
+                start: "top center",
+                end: "bottom center",
+                scrub: 0.5
+            }
+        });
+        
+        blogTl.from(".blog-card", {
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        // 8. Admission Portal Animation
+        const admissionTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".admission-portal-section",
+                start: "top center",
+                end: "bottom center",
+                scrub: 1,
+                onEnter: () => {
+                    // Animate gallery banner
+                    gsap.from(".gallery-banner", {
+                        opacity: 0,
+                        y: 30,
+                        scale: 0.9,
+                        duration: 1,
+                        ease: "back.out(1.2)"
+                    });
+
+                    // Animate form title
+                    gsap.to(".admission-title", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8
+                    });
+
+                    // Animate form inputs
+                    gsap.to(".input-group", { 
+                        opacity: 1, 
+                        y: 0, 
+                        stagger: 0.08, 
+                        duration: 0.6,
+                        delay: 0.3
+                    });
+                    
+                    // Animate footer columns
+                    gsap.to(".footer-col", { 
+                        opacity: 1, 
+                        y: 0, 
+                        stagger: 0.1, 
+                        duration: 0.8 
+                    });
+                    
+                    // Animate footer bottom
+                    gsap.to(".footer-bottom", { 
+                        opacity: 1, 
+                        duration: 1 
+                    });
+                }
+            }
+        });
+
+        // Initialize the gallery
+        function initGallery() {
+            const grid = document.getElementById('grid');
+            
+            // Color palette matching school theme
+            const colors = ['#800000', '#714B67', '#01A09D', '#E2EDF0', '#a8d0e6', '#A24689', '#CFD8DC'];
+
+            // High quality student avatar samples
+            const images = [
+                'a.png',
+                'b.png',
+                'c.png',
+                'd.png',
+                'e.png',
+                'f.png',
+                'g.png',
+                'h.png',
+                'i.png',
+                'j.png'
+            ];
+
+            const shapes = ['shape-circle', 'shape-leaf-tl', 'shape-leaf-tr', 'shape-leaf-br', 'shape-leaf-bl', 'shape-square'];
+
+            // Initialize 45 tiles (9 columns x 5 rows)
+            for (let i = 0; i < 54; i++) {
+                const tile = document.createElement('div');
+                tile.classList.add('gallery-tile');
+                updateGalleryTile(tile);
+                grid.appendChild(tile);
+            }
+
+            function updateGalleryTile(tile) {
+                // Change Shape
+                shapes.forEach(s => tile.classList.remove(s));
+                tile.classList.add(shapes[Math.floor(Math.random() * shapes.length)]);
+
+                // 60% Chance for Image, 40% Chance for Color
+                if (Math.random() < 0.60) {
+                    const randomImg = images[Math.floor(Math.random() * images.length)];
+                    tile.style.backgroundImage = `url('${randomImg}')`;
+                    tile.style.backgroundColor = 'transparent';
+                } else {
+                    const randomCol = colors[Math.floor(Math.random() * colors.length)];
+                    tile.style.backgroundImage = 'none';
+                    tile.style.backgroundColor = randomCol;
+                }
+            }
+
+            // Shuffle random tiles for constant movement
+            setInterval(() => {
+                const tiles = document.querySelectorAll('.gallery-tile');
+                for(let i = 0; i < 3; i++) {
+                    const idx = Math.floor(Math.random() * tiles.length);
+                    updateGalleryTile(tiles[idx]);
+                }
+            }, 1000);
+        }
+
+        // --- Testimonial Slider Logic ---
+        let testimonialIndex = 0;
+        const testimonialCards = document.querySelectorAll('.testimonial-section .card');
+        let isTestimonialAnimating = false;
+
+        function move(direction) {
+            if (isTestimonialAnimating) return;
+            isTestimonialAnimating = true;
+
+            const currentCard = testimonialCards[testimonialIndex];
+            const nextCard = testimonialCards[direction === 'next' ? (testimonialIndex + 1) % testimonialCards.length : (testimonialIndex - 1 + testimonialCards.length) % testimonialCards.length];
+
+            // Hide current card
+            currentCard.classList.remove('active');
+            
+            // Show next card
+            nextCard.classList.add('active');
+            
+            testimonialIndex = direction === 'next' ? (testimonialIndex + 1) % testimonialCards.length : (testimonialIndex - 1 + testimonialCards.length) % testimonialCards.length;
+            
+            isTestimonialAnimating = false;
+        }
+
+        // --- Enhanced Chatbot Logic ---
+        const chatBtn = document.getElementById('chat-button');
+        const chatWin = document.getElementById('chat-window');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendMessage');
+        
+        // Chatbot responses database
+        const chatbotResponses = {
+            'admission': "Our admission process begins in December for the next academic year. You can apply online through our portal or visit the campus.",
+            'fee': "The fee structure varies by grade level. You can find the detailed fee chart under the 'Information' section in the footer.",
+            'facilities': "We have state-of-the-art facilities including science labs, computer labs, library, sports complex, and auditorium.",
+            'contact': "You can contact us at +91 744 123456 or email info@modernschoolkota.edu.in. Office hours: 8 AM to 2 PM, Mon-Sat.",
+            'admission criteria': "Admission is based on previous academic records and an interaction session. No entrance test for lower grades.",
+            'session start': "The academic session starts in April every year. New admissions open in December.",
+            'default': "I can help you with admission queries, fee structure, facilities, and contact information. What would you like to know?"
+        };
+        
+        chatBtn.onclick = () => {
+            chatWin.style.display = 'flex';
+            gsap.fromTo(chatWin, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.2)" });
+            chatBtn.style.display = 'none';
+            gsap.fromTo(".chip", { opacity: 0.5, scale: 0.9 }, { opacity: 1, scale: 1, stagger: 0.05, duration: 0.3 });
+            setTimeout(() => chatInput.focus(), 500);
+        };
+
+        document.getElementById('close-chat').onclick = () => {
+            gsap.to(chatWin, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => {
+                chatWin.style.display = 'none';
+                chatBtn.style.display = 'flex';
+            }});
+        };
+
+        // Send message function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, 'user');
+            chatInput.value = '';
+            
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage(response, 'bot');
+            }, 600);
+        }
+
+        function addMessage(text, sender) {
+            const box = document.getElementById('chat-box');
+            const msg = document.createElement('div');
+            msg.className = `msg ${sender}-msg`;
+            msg.innerText = text;
+            box.appendChild(msg);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function getBotResponse(userInput) {
+            const input = userInput.toLowerCase();
+            
+            if (input.includes('admission') || input.includes('apply')) {
+                return chatbotResponses.admission;
+            } else if (input.includes('fee') || input.includes('cost') || input.includes('price')) {
+                return chatbotResponses.fee;
+            } else if (input.includes('facilit') || input.includes('lab') || input.includes('sports')) {
+                return chatbotResponses.facilities;
+            } else if (input.includes('contact') || input.includes('phone') || input.includes('email')) {
+                return chatbotResponses.contact;
+            } else if (input.includes('criteria') || input.includes('eligibility')) {
+                return chatbotResponses['admission criteria'];
+            } else if (input.includes('session') || input.includes('start') || input.includes('begin')) {
+                return chatbotResponses['session start'];
+            } else {
+                return chatbotResponses.default;
+            }
+        }
+
+        function quickResponse(topic) {
+            addMessage(topic, 'user');
+            setTimeout(() => {
+                const response = getBotResponse(topic);
+                addMessage(response, 'bot');
+            }, 600);
+        }
+
+        function insertSuggestion(text) {
+            chatInput.value = text;
+            chatInput.focus();
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        const form = document.getElementById("admissionForm");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const successTl = gsap.timeline();
+            
+            successTl.to("#form-content", { opacity: 0, duration: 0.3, onComplete: () => {
+                document.getElementById("form-content").style.display = "none";
+                document.getElementById("success-content").style.display = "block";
+            }})
+            .to("#box", { maxWidth: "320px", duration: 0.5, ease: "power2.inOut" })
+            .to("#success-content", { opacity: 1, duration: 0.3 })
+            .set(".checkmark-circle, .checkmark-check", { visibility: "visible" })
+            .to(".checkmark-circle", { strokeDashoffset: 0, duration: 0.6 })
+            .to(".checkmark-check", { strokeDashoffset: 0, duration: 0.4 });
+        });
+
+        function openModal(title, desc, img, readTime, date) {
+            const modal = document.getElementById('blogModal');
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalMeta').innerText = `${date} | ${readTime}`;
+
+            modal.style.display = 'flex';
+            
+            document.querySelector('.nav-header').style.opacity = '0';
+            document.querySelector('.nav-header').style.pointerEvents = 'none';
+            document.getElementById('backToTop').style.opacity = '0';
+            document.getElementById('backToTop').style.visibility = 'hidden';
+            document.getElementById('chat-widget').style.opacity = '0';
+            document.getElementById('chat-widget').style.pointerEvents = 'none';
+            
+            gsap.set(".modal-container", { opacity: 0, scale: 0.95 });
+            
+            if(window.innerWidth > 768) {
+                gsap.set("#modalImgWrapper", { width: "100%" });
+                gsap.set("#modalTextContent", { width: "0%", opacity: 0, paddingLeft: "0px" });
+            }
+
+            gsap.to(".modal-container", { opacity: 1, scale: 1, duration: 0.5 });
+
+            if(window.innerWidth > 768) {
+                const splitTl = gsap.timeline({ delay: 1 });
+                splitTl.to("#modalImgWrapper", {
+                    width: "50%",
+                    duration: 1,
+                    ease: "power3.inOut"
+                })
+                .to("#modalTextContent", {
+                    width: "50%",
+                    opacity: 1,
+                    paddingLeft: "50px",
+                    duration: 1,
+                    ease: "power3.inOut"
+                }, "<");
+            }
+        }
+
+        function closeModal() {
+            gsap.to("#blogModal", { opacity: 0, duration: 0.3, onComplete: () => {
+                const modal = document.getElementById('blogModal');
+                modal.style.display = 'none';
+                modal.style.opacity = '1';
+                gsap.set("#modalImgWrapper", { clearProps: "all" });
+                gsap.set("#modalTextContent", { clearProps: "all" });
+                
+                document.querySelector('.nav-header').style.opacity = '1';
+                document.querySelector('.nav-header').style.pointerEvents = 'auto';
+                
+                if (window.scrollY > 500) {
+                    document.getElementById('backToTop').classList.add('show');
+                }
+                document.getElementById('backToTop').style.visibility = '';
+                document.getElementById('backToTop').style.opacity = '';
+                
+                document.getElementById('chat-widget').style.opacity = '1';
+                document.getElementById('chat-widget').style.pointerEvents = 'auto';
+            }});
+        }
+    
+        function scrollToAdmissionForm() {
+            gsap.to(window, {
+                duration: 1.5,
+                scrollTo: {
+                    y: "#admissionFormSection",
+                    offsetY: 20
+                },
+                ease: "power2.inOut"
+            });
+            
+            gsap.fromTo("#box", 
+                { boxShadow: "0 0 0 0 rgba(168, 208, 230, 0.8)" },
+                { 
+                    boxShadow: "0 0 30px 10px rgba(168, 208, 230, 0.8)",
+                    duration: 0.8,
+                    repeat: 2,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                }
+            );
+        }
+
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (!document.body.classList.contains('is-active')) {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        function scrollToAdmission() {
+            scrollToAdmissionForm();
+        }
+
+        gsap.to(".gold-star", { 
+            y: "random(-30, 30)", 
+            rotation: "random(0, 360)", 
+            duration: 4, 
+            repeat: -1, 
+            yoyo: true 
+        });
+
+        initGallery();
+
+        window.addEventListener('scroll', function() {
+            const navHeader = document.querySelector('.nav-header');
+            if (window.scrollY > 100) {
+                navHeader.classList.add('scrolled');
+            } else {
+                navHeader.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
